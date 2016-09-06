@@ -10,21 +10,67 @@
 
 // My API Token: 5e48f1cba5a455754ebadee36f5293fc
 var request = require('request-promise');
-
-  var options = {
+const TOKEN = "5e48f1cba5a455754ebadee36f5293fc";
+const CODE2040URL = 'http://challenge.code2040.org/api/';
+var options = {
     method: "POST",
-    uri: "http://challenge.code2040.org/api/register",
-    body: {
-      "token": "5e48f1cba5a455754ebadee36f5293fc",
-      "github": "https://github.com/jonathanv3232/CODE2040_API"
-    },
+    body: {"token": TOKEN},
     json: true
-  };
+    };
 
+function register(){
+  options.uri = CODE2040URL + "register";
+  options.body.github = "https://github.com/jonathanv3232/CODE2040_API";
   request(options)
     .then(function (response) {
-      console.log("registration succesful", response);
+      console.log("succesful: ", response);
     })
     .catch(function (err) {
       console.log("error: ", err);
     });
+}
+
+function reverseString(){
+  options.uri = CODE2040URL + "reverse";
+  request(options)
+    .then(function (response) {
+      console.log("reverse this string ", response);
+      options.uri = CODE2040URL + "reverse/validate";
+      var string = response.split("").reverse().join("");
+      options.body.string = string;
+      request(options)
+        .then(function (response) {
+          console.log("successful: ", response);
+        })
+        .catch(function (err) {
+          console.log("error: ", err);
+        });
+    })
+    .catch(function (err) {
+      console.log("error: ", err);
+    });
+}
+
+function findTheNeedle() {
+  options.uri = CODE2040URL + "haystack";
+  request(options)
+    .then(function (response) {
+      console.log("find this string ", response);
+      options.uri = CODE2040URL + "haystack/validate";
+      var needle = response.needle
+      options.body.needle = response.haystack.indexOf(needle);
+      request(options)
+        .then(function (response) {
+          console.log("successfully sent the index of the needle: ", response);
+        })
+        .catch(function (err) {
+          console.log("error: ", err);
+        });
+    })
+    .catch(function (err) {
+      console.log("error: ", err);
+    });
+}
+register();
+reverseString();
+findTheNeedle();
