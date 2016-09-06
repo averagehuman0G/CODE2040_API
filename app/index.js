@@ -71,6 +71,60 @@ function findTheNeedle() {
       console.log("error: ", err);
     });
 }
+
+function doesNotContainPrefix(string) {
+
+  return string.startsWith(string);
+}
+
+function notWithPrefix() {
+  options.uri = CODE2040URL +  "prefix";
+  request(options)
+    .then(function (response) {
+      console.log("find the strings that don't match with the prefix", response);
+      options.uri = CODE2040URL + "prefix/validate";
+      var prefix = response.prefix;
+      options.body.array = response.array.filter(function(string) {
+                              return !string.startsWith(prefix);
+                            });
+      request(options)
+        .then(function (response) {
+          console.log("successfully returned an array with strings that don't contain the prefix: ", response);
+        })
+        .catch(function (err) {
+          console.log("error: ", err);
+        });
+    })
+    .catch(function (err) {
+      console.log("error: ", err);
+    });
+}
+
+function addingTime() {
+  options.uri = CODE2040URL + "dating";
+  request(options)
+    .then(function (response) {
+      console.log("Time object", response);
+
+      options.uri = CODE2040URL + "dating/validate";
+      var date = new Date(response.datestamp);
+      date.setSeconds(date.getSeconds() + response.interval);
+      options.body.datestamp = date.toISOString().replace(/\..+/, 'Z');;
+      request(options)
+        .then(function (response) {
+          console.log("successfully returned an updated date stamp: ", response);
+        })
+        .catch(function (err) {
+          console.log("error: ", err.message);
+        });
+    })
+    .catch(function (err) {
+      console.log("error: ", err.message);
+    });
+}
+
 register();
 reverseString();
 findTheNeedle();
+notWithPrefix();
+addingTime();
