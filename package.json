@@ -1,0 +1,24 @@
+{
+  "name": "code2040_post",
+  "version": "1.0.0",
+  "description": "Sends data to code2040's endpoint to register",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonathanv3232/CODE2040_API.git"
+  },
+  "author": "Jonathanv3232",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jonathanv3232/CODE2040_API/issues"
+  },
+  "homepage": "https://github.com/jonathanv3232/CODE2040_API#readme",
+  "dependencies": {
+    "express": "^4.14.0",
+    "request": "^2.74.0",
+    "request-promise": "^4.1.1"
+  }
+}
